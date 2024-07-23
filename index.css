@@ -31,6 +31,36 @@ body{
 #キャラレベル5{
     width: 60px;
 }
+#キャラ潜在1{
+    width: 60px;
+}
+#キャラ潜在2{
+    width: 60px;
+}
+#キャラ潜在3{
+    width: 60px;
+}
+#キャラ潜在4{
+    width: 60px;
+}
+#キャラ潜在5{
+    width: 60px;
+}
+#キャラふれあい1{
+    width: 60px;
+}
+#キャラふれあい2{
+    width: 60px;
+}
+#キャラふれあい3{
+    width: 60px;
+}
+#キャラふれあい4{
+    width: 60px;
+}
+#キャラふれあい5{
+    width: 60px;
+}
 #通常キャラ1{
     width: 60px;
 }
@@ -59,5 +89,20 @@ body{
     width: 60px;
 }
 #必殺キャラ5{
+    width: 60px;
+}
+#与治療plus1{
+    width: 60px;
+}
+#与治療plus2{
+    width: 60px;
+}
+#与治療plus3{
+    width: 60px;
+}
+#与治療plus4{
+    width: 60px;
+}
+#与治療plus5{
     width: 60px;
 }
