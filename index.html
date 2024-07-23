@@ -62,7 +62,7 @@
       setdef();
       calcTurn(15);
       if(enemyHp <= 0){enemyHp = 0;}
-      alert(`レイの現在HP${Math.round((96000 - enemyHp) / 96000 * 100)}%`);
+      alert(`レイ残HP${Math.round((96000 - enemyHp) / 96000 * 100)}%`);
     }
     function calcTurn(turn){
       var first = document.querySelector(`#a${turn}T行動順キャラ1`).value;
