@@ -1,0 +1,1289 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>レイ計算機</title>
+  </head>
+  <script>
+    var enemyHp = 96000;
+    var baseatk1 = 0;
+    var baseatk2 = 0;
+    var baseatk3 = 0;
+    var baseatk4 = 0;
+    var baseatk5 = 0;
+    var thisatk = 0;
+    var atk1 = 0;
+    var atk2 = 0;
+    var atk3 = 0;
+    var atk4 = 0;
+    var atk5 = 0;
+    function calc() {
+      function setdef(){
+        atk1 = baseatk1
+        atk2 = baseatk2
+        atk3 = baseatk3
+        atk4 = baseatk4
+        atk5 = baseatk5
+      }
+      enemyHp = 96000;
+      baseatk1 = document.getElementById('キャラ1').value;
+      baseatk2 = document.getElementById('キャラ2').value;
+      baseatk3 = document.getElementById('キャラ3').value;
+      baseatk4 = document.getElementById('キャラ4').value;
+      baseatk5 = document.getElementById('キャラ5').value;
+      thisatk = 0;
+      setdef();
+      calcTurn(2);
+      setdef();
+      calcTurn(3);
+      setdef();
+      calcTurn(4);
+      setdef();
+      calcTurn(5);
+      setdef();
+      calcTurn(6);
+      setdef();
+      calcTurn(7);
+      setdef();
+      calcTurn(8);
+      setdef();
+      calcTurn(9);
+      setdef();
+      calcTurn(10);
+      setdef();
+      calcTurn(11);
+      setdef();
+      calcTurn(12);
+      setdef();
+      calcTurn(13);
+      setdef();
+      calcTurn(14);
+      setdef();
+      calcTurn(15);
+      if(enemyHp <= 0){enemyHp = 0;}
+      alert(`レイの現在HP${Math.round((96000 - enemyHp) / 96000 * 100)}%`);
+    }
+    function calcTurn(turn){
+      var first = document.querySelector(`#a${turn}T行動順キャラ1`).value;
+      var second = document.querySelector(`#a${turn}T行動順キャラ2`).value;
+      var third = document.querySelector(`#a${turn}T行動順キャラ3`).value;
+      var fourth = document.querySelector(`#a${turn}T行動順キャラ4`).value;
+      var fifth = document.querySelector(`#a${turn}T行動順キャラ5`).value;
+      if(first == 1){
+        calcCharacter(turn, 1)
+      }
+      else if(second == 1){
+        calcCharacter(turn, 2)
+      }
+      else if(third == 1){
+        calcCharacter(turn, 3)
+      }
+      else if(fourth == 1){
+        calcCharacter(turn, 4)
+      }
+      else if(fifth == 1){
+        calcCharacter(turn, 5)
+      }
+      if(first == 2){
+        calcCharacter(turn, 1)
+      }
+      else if(second == 2){
+        calcCharacter(turn, 2)
+      }
+      else if(third == 2){
+        calcCharacter(turn, 3)
+      }
+      else if(fourth == 2){
+        calcCharacter(turn, 4)
+      }
+      else if(fifth == 2){
+        calcCharacter(turn, 5)
+      }
+      if(first == 3){
+        calcCharacter(turn, 1)
+      }
+      else if(second == 3){
+        calcCharacter(turn, 2)
+      }
+      else if(third == 3){
+        calcCharacter(turn, 3)
+      }
+      else if(fourth == 3){
+        calcCharacter(turn, 4)
+      }
+      else if(fifth == 3){
+        calcCharacter(turn, 5)
+      }
+      if(first == 4){
+        calcCharacter(turn, 1)
+      }
+      else if(second == 4){
+        calcCharacter(turn, 2)
+      }
+      else if(third == 4){
+        calcCharacter(turn, 3)
+      }
+      else if(fourth == 4){
+        calcCharacter(turn, 4)
+      }
+      else if(fifth == 4){
+        calcCharacter(turn, 5)
+      }
+      if(first == 5){
+        calcCharacter(turn, 1)
+      }
+      else if(second == 5){
+        calcCharacter(turn, 2)
+      }
+      else if(third == 5){
+        calcCharacter(turn, 3)
+      }
+      else if(fourth == 5){
+        calcCharacter(turn, 4)
+      }
+      else if(fifth == 5){
+        calcCharacter(turn, 5)
+      }
+    }
+    function calcCharacter(turn,character){
+      thisatk = 0;
+      var act = document.querySelector(`#a${turn}Tキャラ${character}`).value;
+      if(act == "bsc"){
+        var pos = document.querySelector(`#ポジションキャラ${character}`).value;
+        if( pos == "sup"){
+          buffATK(document.getElementById(`通常キャラ${character}`).value, character)
+        }
+        setThisatk(character);
+        enemyHp -= thisatk * 0.5;
+      }
+      else if(act == "ult"){
+        var pos = document.querySelector(`#ポジションキャラ${character}`).value;
+        if( pos == "sup"){
+          buffATK(document.getElementById(`必殺キャラ${character}`).value, character)
+        }
+        setThisatk(character);
+        enemyHp -= thisatk;
+      }
+      else if(act == "grd"){}
+      else if(act == "bscult"){
+        var pos = document.querySelector(`#ポジションキャラ${character}`).value;
+        if( pos == "sup"){
+          buffATK(document.getElementById(`通常キャラ${character}`).value, character)
+          buffATK(document.getElementById(`必殺キャラ${character}`).value, character)
+        }
+        setThisatk(character);
+        enemyHp -= thisatk;
+      }
+    }
+    function setThisatk(character){
+      if(character == 1){
+        thisatk = atk1;
+      }
+      else if(character == 2){
+        thisatk = atk2;
+      }
+      else if(character == 3){
+        thisatk = atk3;
+      }
+      else if(character == 4){
+        thisatk = atk4
+      }
+      else if(character == 5){
+        thisatk = atk5
+      }
+    }
+    function buffATK(buff, character){
+      var baseatk = 0;
+      if(character == 1){
+        
+        baseatk = baseatk1;
+      }
+      else if(character == 2){
+        baseatk = baseatk2
+      }
+      else if(character == 3){
+        baseatk = baseatk3
+      }
+      else if(character == 4){
+        baseatk = baseatk4
+      }
+      else if(character == 5){
+        baseatk = baseatk5
+      }
+      var buffatk = baseatk * buff / 100;
+      atk1 = + atk1 + buffatk;
+      atk2 = + atk2 + buffatk;
+      atk3 = + atk3 + buffatk;  
+      atk4 = + atk4 + buffatk;
+      atk5 = + atk5 + buffatk;
+    }
+    function levelup(){
+      var nowatk1 = document.getElementById('キャラ1').value;
+      var nowatk2 = document.getElementById('キャラ2').value;
+      var nowatk3 = document.getElementById('キャラ3').value;
+      var nowatk4 = document.getElementById('キャラ4').value;
+      var nowatk5 = document.getElementById('キャラ5').value;
+      var nowlv1 = document.getElementById('キャラレベル1').value;
+      var nowlv2 = document.getElementById('キャラレベル2').value;
+      var nowlv3 = document.getElementById('キャラレベル3').value;
+      var nowlv4 = document.getElementById('キャラレベル4').value;
+      var nowlv5 = document.getElementById('キャラレベル5').value;
+      if(0 < nowlv1 && nowlv1 <= 60){
+        document.getElementById('キャラ1').value =  Math.round(nowatk1 * (1.05 ** (60 - nowlv1) ));
+        document.getElementById('キャラレベル1').value = 60;
+      }
+      if(0 < nowlv2 && nowlv2 <= 60){
+        document.getElementById('キャラ2').value =  Math.round(nowatk2 * (1.05 ** (60 - nowlv2) ));
+        document.getElementById('キャラレベル2').value = 60;
+      }
+      if(0 < nowlv3 && nowlv3 <= 60){
+        document.getElementById('キャラ3').value =  Math.round(nowatk3 * (1.05 ** (60 - nowlv3) ));
+        document.getElementById('キャラレベル3').value = 60;
+      }
+      if(0 < nowlv4 && nowlv4 <= 60){
+        document.getElementById('キャラ4').value =  Math.round(nowatk4 * (1.05 ** (60 - nowlv4) ));
+        document.getElementById('キャラレベル4').value = 60;
+      }
+      if(0 < nowlv5 && nowlv5 <= 60){
+        document.getElementById('キャラ5').value =  Math.round(nowatk5 * (1.05 ** (60 - nowlv5) ));
+        document.getElementById('キャラレベル5').value = 60;
+      }
+    }
+  </script>
+  <body>
+    <p>この計算はあくまで目安です。想定外の入力は考慮しておりません。</p>
+    <p>各種入力を行って「計算する」を押すと、11-10レイ戦の15ターン時点でのおおよその敵残HPを計算します。</p>
+    <p>現在ATKは、バトル開始時のATKバフも加味して入力すると実際の値に近くなります。</p>
+    <p>サポーターを採用する場合、ポジションを「サポ」に変更し、サポ通常とサポ必殺に倍率を入力してください。</p>
+    <p>サポーターの必殺技の効果が次のターンにも続いている場合、次のターンに行動「通必」を選択してください。</p>
+    <p>行動順の順番通りに動いたと想定して計算を行います。</p>
+    <button id="calcbt" onclick="calc()">計算する</button>
+    <p display:flex;>
+      <p>
+        <p>
+          現在ATK
+          <input type="number" name="キャラ1" id="キャラ1" value="1500"/>
+          <input type="number" name="キャラ2" id="キャラ2" value="1500"/>
+          <input type="number" name="キャラ3" id="キャラ3" value="1500"/>
+          <input type="number" name="キャラ4" id="キャラ4" value="1500"/>
+          <input type="number" name="キャラ5" id="キャラ5" value="1500"/>
+        </p>
+        <p>
+          現在レベル
+          <input type="number" name="キャラレベル1" id="キャラレベル1" value="60"/>
+          <input type="number" name="キャラレベル2" id="キャラレベル2" value="60"/>
+          <input type="number" name="キャラレベル3" id="キャラレベル3" value="60"/>
+          <input type="number" name="キャラレベル4" id="キャラレベル4" value="60"/>
+          <input type="number" name="キャラレベル5" id="キャラレベル5" value="60"/>
+          <button id="calcbt" onclick="levelup()">レベル60にする</button>
+        </p>
+        <p>
+          ポジション:
+          <select id="ポジションキャラ1">
+            <option value="otr">サポ以外</option>
+            <option value="sup">サポ</option>
+          </select>
+          <select id="ポジションキャラ2">
+            <option value="otr">サポ以外</option>
+            <option value="sup">サポ</option>
+          </select>
+          <select id="ポジションキャラ3">
+            <option value="otr">サポ以外</option>
+            <option value="sup">サポ</option>
+          </select>
+          <select id="ポジションキャラ4">
+            <option value="otr">サポ以外</option>
+            <option value="sup">サポ</option>
+          </select>
+          <select id="ポジションキャラ5">
+            <option value="otr">サポ以外</option>
+            <option value="sup">サポ</option>
+          </select>
+        </p>
+        <p>
+          サポ通常:
+          <input type="number" name="通常キャラ1" id="通常キャラ1" value="0"/>%
+          <input type="number" name="通常キャラ2" id="通常キャラ2" value="0"/>%
+          <input type="number" name="通常キャラ3" id="通常キャラ3" value="0"/>%
+          <input type="number" name="通常キャラ4" id="通常キャラ4" value="0"/>%
+          <input type="number" name="通常キャラ5" id="通常キャラ5" value="0"/>%
+        </p>
+        <p>
+          サポ必殺:
+          <input type="number" name="必殺キャラ1" id="必殺キャラ1" value="0"/>%
+          <input type="number" name="必殺キャラ2" id="必殺キャラ2" value="0"/>%
+          <input type="number" name="必殺キャラ3" id="必殺キャラ3" value="0"/>%
+          <input type="number" name="必殺キャラ4" id="必殺キャラ4" value="0"/>%
+          <input type="number" name="必殺キャラ5" id="必殺キャラ5" value="0"/>%
+        </p>
+        <p>
+          02T:
+          <select id="a2Tキャラ1">
+            <option value="bsc">通常</option>
+            <option value="ult">必殺</option>
+            <option value="grd">防御</option>
+            <option value="bscult">通必</option>
+          </select>
+          <select id="a2Tキャラ2">
+            <option value="bsc">通常</option>
+            <option value="ult">必殺</option>
+            <option value="grd">防御</option>
+            <option value="bscult">通必</option>
+          </select>
+          <select id="a2Tキャラ3">
+            <option value="bsc">通常</option>
+            <option value="ult">必殺</option>
+            <option value="grd">防御</option>
+            <option value="bscult">通必</option>
+          </select>
+          <select id="a2Tキャラ4">
+            <option value="bsc">通常</option>
+            <option value="ult">必殺</option>
+            <option value="grd">防御</option>
+            <option value="bscult">通必</option>
+          </select>
+          <select id="a2Tキャラ5">
+            <option value="bsc">通常</option>
+            <option value="ult">必殺</option>
+            <option value="grd">防御</option>
+            <option value="bscult">通必</option>
+          </select>
+          行動順:
+          <select id="a2T行動順キャラ1">
+            <option value="1" selected>1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+          </select>
+          <select id="a2T行動順キャラ2">
+            <option value="1">1</option>
+            <option value="2" selected>2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+          </select>
+          <select id="a2T行動順キャラ3">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3" selected>3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+          </select>
+          <select id="a2T行動順キャラ4">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4" selected>4</option>
+            <option value="5">5</option>
+          </select>
+          <select id="a2T行動順キャラ5">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5" selected>5</option>
+          </select>
+        </p>
+        <p>
+          03T:
+          <select id="a3Tキャラ1">
+            <option value="bsc">通常</option>
+            <option value="ult">必殺</option>
+            <option value="grd">防御</option>
+            <option value="bscult">通必</option>
+          </select>
+          <select id="a3Tキャラ2">
+            <option value="bsc">通常</option>
+            <option value="ult">必殺</option>
+            <option value="grd">防御</option>
+            <option value="bscult">通必</option>
+          </select>
+          <select id="a3Tキャラ3">
+            <option value="bsc">通常</option>
+            <option value="ult">必殺</option>
+            <option value="grd">防御</option>
+            <option value="bscult">通必</option>
+          </select>
+          <select id="a3Tキャラ4">
+            <option value="bsc">通常</option>
+            <option value="ult">必殺</option>
+            <option value="grd">防御</option>
+            <option value="bscult">通必</option>
+          </select>
+          <select id="a3Tキャラ5">
+            <option value="bsc">通常</option>
+            <option value="ult">必殺</option>
+            <option value="grd">防御</option>
+            <option value="bscult">通必</option>
+          </select>
+          行動順:
+          <select id="a3T行動順キャラ1">
+            <option value="1" selected>1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+          </select>
+          <select id="a3T行動順キャラ2">
+            <option value="1">1</option>
+            <option value="2" selected>2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+          </select>
+          <select id="a3T行動順キャラ3">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3" selected>3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+          </select>
+          <select id="a3T行動順キャラ4">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4" selected>4</option>
+            <option value="5">5</option>
+          </select>
+          <select id="a3T行動順キャラ5">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5" selected>5</option>
+          </select>
+        </p>
+        <p>
+          04T:
+          <select id="a4Tキャラ1">
+            <option value="bsc">通常</option>
+            <option value="ult">必殺</option>
+            <option value="grd">防御</option>
+            <option value="bscult">通必</option>
+          </select>
+          <select id="a4Tキャラ2">
+            <option value="bsc">通常</option>
+            <option value="ult">必殺</option>
+            <option value="grd">防御</option>
+            <option value="bscult">通必</option>
+          </select>
+          <select id="a4Tキャラ3">
+            <option value="bsc">通常</option>
+            <option value="ult">必殺</option>
+            <option value="grd">防御</option>
+            <option value="bscult">通必</option>
+          </select>
+          <select id="a4Tキャラ4">
+            <option value="bsc">通常</option>
+            <option value="ult">必殺</option>
+            <option value="grd">防御</option>
+            <option value="bscult">通必</option>
+          </select>
+          <select id="a4Tキャラ5">
+            <option value="bsc">通常</option>
+            <option value="ult">必殺</option>
+            <option value="grd">防御</option>
+            <option value="bscult">通必</option>
+          </select>
+          行動順:
+          <select id="a4T行動順キャラ1">
+            <option value="1" selected>1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+          </select>
+          <select id="a4T行動順キャラ2">
+            <option value="1">1</option>
+            <option value="2" selected>2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+          </select>
+          <select id="a4T行動順キャラ3">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3" selected>3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+          </select>
+          <select id="a4T行動順キャラ4">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4" selected>4</option>
+            <option value="5">5</option>
+          </select>
+          <select id="a4T行動順キャラ5">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5" selected>5</option>
+          </select>
+        </p>
+        <p>
+          05T:
+          <select id="a5Tキャラ1">
+            <option value="bsc">通常</option>
+            <option value="ult" selected>必殺</option>
+            <option value="grd">防御</option>
+            <option value="bscult">通必</option>
+          </select>
+          <select id="a5Tキャラ2">
+            <option value="bsc">通常</option>
+            <option value="ult" selected>必殺</option>
+            <option value="grd">防御</option>
+            <option value="bscult">通必</option>
+          </select>
+          <select id="a5Tキャラ3">
+            <option value="bsc">通常</option>
+            <option value="ult" selected>必殺</option>
+            <option value="grd">防御</option>
+            <option value="bscult">通必</option>
+          </select>
+          <select id="a5Tキャラ4">
+            <option value="bsc">通常</option>
+            <option value="ult" selected>必殺</option>
+            <option value="grd">防御</option>
+            <option value="bscult">通必</option>
+          </select>
+          <select id="a5Tキャラ5">
+            <option value="bsc">通常</option>
+            <option value="ult" selected>必殺</option>
+            <option value="grd">防御</option>
+            <option value="bscult">通必</option>
+          </select>
+          行動順:
+          <select id="a5T行動順キャラ1">
+            <option value="1" selected>1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+          </select>
+          <select id="a5T行動順キャラ2">
+            <option value="1">1</option>
+            <option value="2" selected>2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+          </select>
+          <select id="a5T行動順キャラ3">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3" selected>3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+          </select>
+          <select id="a5T行動順キャラ4">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4" selected>4</option>
+            <option value="5">5</option>
+          </select>
+          <select id="a5T行動順キャラ5">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5" selected>5</option>
+          </select>
+        </p>
+        <p>
+          06T:
+          <select id="a6Tキャラ1">
+            <option value="bsc">通常</option>
+            <option value="ult">必殺</option>
+            <option value="grd" selected>防御</option>
+            <option value="bscult">通必</option>
+          </select>
+          <select id="a6Tキャラ2">
+            <option value="bsc">通常</option>
+            <option value="ult">必殺</option>
+            <option value="grd">防御</option>
+            <option value="bscult">通必</option>
+          </select>
+          <select id="a6Tキャラ3">
+            <option value="bsc">通常</option>
+            <option value="ult">必殺</option>
+            <option value="grd" selected>防御</option>
+            <option value="bscult">通必</option>
+          </select>
+          <select id="a6Tキャラ4">
+            <option value="bsc">通常</option>
+            <option value="ult">必殺</option>
+            <option value="grd">防御</option>
+            <option value="bscult">通必</option>
+          </select>
+          <select id="a6Tキャラ5">
+            <option value="bsc">通常</option>
+            <option value="ult">必殺</option>
+            <option value="grd" selected>防御</option>
+            <option value="bscult">通必</option>
+          </select>
+          行動順:
+          <select id="a6T行動順キャラ1">
+            <option value="1" selected>1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+          </select>
+          <select id="a6T行動順キャラ2">
+            <option value="1">1</option>
+            <option value="2" selected>2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+          </select>
+          <select id="a6T行動順キャラ3">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3" selected>3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+          </select>
+          <select id="a6T行動順キャラ4">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4" selected>4</option>
+            <option value="5">5</option>
+          </select>
+          <select id="a6T行動順キャラ5">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5" selected>5</option>
+          </select>
+        </p>
+        <p>
+          07T:
+          <select id="a7Tキャラ1">
+            <option value="bsc">通常</option>
+            <option value="ult">必殺</option>
+            <option value="grd">防御</option>
+            <option value="bscult">通必</option>
+          </select>
+          <select id="a7Tキャラ2">
+            <option value="bsc">通常</option>
+            <option value="ult">必殺</option>
+            <option value="grd">防御</option>
+            <option value="bscult">通必</option>
+          </select>
+          <select id="a7Tキャラ3">
+            <option value="bsc">通常</option>
+            <option value="ult">必殺</option>
+            <option value="grd">防御</option>
+            <option value="bscult">通必</option>
+          </select>
+          <select id="a7Tキャラ4">
+            <option value="bsc">通常</option>
+            <option value="ult">必殺</option>
+            <option value="grd">防御</option>
+            <option value="bscult">通必</option>
+          </select>
+          <select id="a7Tキャラ5">
+            <option value="bsc">通常</option>
+            <option value="ult">必殺</option>
+            <option value="grd">防御</option>
+            <option value="bscult">通必</option>
+          </select>
+          行動順:
+          <select id="a7T行動順キャラ1">
+            <option value="1" selected>1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+          </select>
+          <select id="a7T行動順キャラ2">
+            <option value="1">1</option>
+            <option value="2" selected>2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+          </select>
+          <select id="a7T行動順キャラ3">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3" selected>3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+          </select>
+          <select id="a7T行動順キャラ4">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4" selected>4</option>
+            <option value="5">5</option>
+          </select>
+          <select id="a7T行動順キャラ5">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5" selected>5</option>
+          </select>
+        </p>
+        <p>
+          08T:
+          <select id="a8Tキャラ1">
+            <option value="bsc">通常</option>
+            <option value="ult">必殺</option>
+            <option value="grd">防御</option>
+            <option value="bscult">通必</option>
+          </select>
+          <select id="a8Tキャラ2">
+            <option value="bsc">通常</option>
+            <option value="ult">必殺</option>
+            <option value="grd">防御</option>
+            <option value="bscult">通必</option>
+          </select>
+          <select id="a8Tキャラ3">
+            <option value="bsc">通常</option>
+            <option value="ult">必殺</option>
+            <option value="grd">防御</option>
+            <option value="bscult">通必</option>
+          </select>
+          <select id="a8Tキャラ4">
+            <option value="bsc">通常</option>
+            <option value="ult">必殺</option>
+            <option value="grd">防御</option>
+            <option value="bscult">通必</option>
+          </select>
+          <select id="a8Tキャラ5">
+            <option value="bsc">通常</option>
+            <option value="ult">必殺</option>
+            <option value="grd">防御</option>
+            <option value="bscult">通必</option>
+          </select>
+          行動順:
+          <select id="a8T行動順キャラ1">
+            <option value="1" selected>1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+          </select>
+          <select id="a8T行動順キャラ2">
+            <option value="1">1</option>
+            <option value="2" selected>2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+          </select>
+          <select id="a8T行動順キャラ3">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3" selected>3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+          </select>
+          <select id="a8T行動順キャラ4">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4" selected>4</option>
+            <option value="5">5</option>
+          </select>
+          <select id="a8T行動順キャラ5">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5" selected>5</option>
+          </select>
+        </p>
+        <p>
+          09T:
+          <select id="a9Tキャラ1">
+            <option value="bsc">通常</option>
+            <option value="ult" selected>必殺</option>
+            <option value="grd">防御</option>
+            <option value="bscult">通必</option>
+          </select>
+          <select id="a9Tキャラ2">
+            <option value="bsc">通常</option>
+            <option value="ult" selected>必殺</option>
+            <option value="grd">防御</option>
+            <option value="bscult">通必</option>
+          </select>
+          <select id="a9Tキャラ3">
+            <option value="bsc">通常</option>
+            <option value="ult" selected>必殺</option>
+            <option value="grd">防御</option>
+            <option value="bscult">通必</option>
+          </select>
+          <select id="a9Tキャラ4">
+            <option value="bsc">通常</option>
+            <option value="ult" selected>必殺</option>
+            <option value="grd">防御</option>
+            <option value="bscult">通必</option>
+          </select>
+          <select id="a9Tキャラ5">
+            <option value="bsc">通常</option>
+            <option value="ult" selected>必殺</option>
+            <option value="grd">防御</option>
+            <option value="bscult">通必</option>
+          </select>
+          行動順:
+          <select id="a9T行動順キャラ1">
+            <option value="1" selected>1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+          </select>
+          <select id="a9T行動順キャラ2">
+            <option value="1">1</option>
+            <option value="2" selected>2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+          </select>
+          <select id="a9T行動順キャラ3">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3" selected>3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+          </select>
+          <select id="a9T行動順キャラ4">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4" selected>4</option>
+            <option value="5">5</option>
+          </select>
+          <select id="a9T行動順キャラ5">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5" selected>5</option>
+          </select>
+        </p>
+        <p>
+          10T:
+          <select id="a10Tキャラ1">
+            <option value="bsc">通常</option>
+            <option value="ult">必殺</option>
+            <option value="grd">防御</option>
+            <option value="bscult">通必</option>
+          </select>
+          <select id="a10Tキャラ2">
+            <option value="bsc">通常</option>
+            <option value="ult">必殺</option>
+            <option value="grd">防御</option>
+            <option value="bscult">通必</option>
+          </select>
+          <select id="a10Tキャラ3">
+            <option value="bsc">通常</option>
+            <option value="ult">必殺</option>
+            <option value="grd">防御</option>
+            <option value="bscult">通必</option>
+          </select>
+          <select id="a10Tキャラ4">
+            <option value="bsc">通常</option>
+            <option value="ult">必殺</option>
+            <option value="grd">防御</option>
+            <option value="bscult">通必</option>
+          </select>
+          <select id="a10Tキャラ5">
+            <option value="bsc">通常</option>
+            <option value="ult">必殺</option>
+            <option value="grd">防御</option>
+            <option value="bscult">通必</option>
+          </select>
+          行動順:
+          <select id="a10T行動順キャラ1">
+            <option value="1" selected>1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+          </select>
+          <select id="a10T行動順キャラ2">
+            <option value="1">1</option>
+            <option value="2" selected>2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+          </select>
+          <select id="a10T行動順キャラ3">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3" selected>3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+          </select>
+          <select id="a10T行動順キャラ4">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4" selected>4</option>
+            <option value="5">5</option>
+          </select>
+          <select id="a10T行動順キャラ5">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5" selected>5</option>
+          </select>
+        </p>
+        <p>
+          11T:
+          <select id="a11Tキャラ1">
+            <option value="bsc">通常</option>
+            <option value="ult">必殺</option>
+            <option value="grd" selected>防御</option>
+            <option value="bscult">通必</option>
+          </select>
+          <select id="a11Tキャラ2">
+            <option value="bsc">通常</option>
+            <option value="ult">必殺</option>
+            <option value="grd">防御</option>
+            <option value="bscult">通必</option>
+          </select>
+          <select id="a11Tキャラ3">
+            <option value="bsc">通常</option>
+            <option value="ult">必殺</option>
+            <option value="grd" selected>防御</option>
+            <option value="bscult">通必</option>
+          </select>
+          <select id="a11Tキャラ4">
+            <option value="bsc">通常</option>
+            <option value="ult">必殺</option>
+            <option value="grd">防御</option>
+            <option value="bscult">通必</option>
+          </select>
+          <select id="a11Tキャラ5">
+            <option value="bsc">通常</option>
+            <option value="ult">必殺</option>
+            <option value="grd" selected>防御</option>
+            <option value="bscult">通必</option>
+          </select>
+          行動順:
+          <select id="a11T行動順キャラ1">
+            <option value="1" selected>1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+          </select>
+          <select id="a11T行動順キャラ2">
+            <option value="1">1</option>
+            <option value="2" selected>2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+          </select>
+          <select id="a11T行動順キャラ3">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3" selected>3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+          </select>
+          <select id="a11T行動順キャラ4">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4" selected>4</option>
+            <option value="5">5</option>
+          </select>
+          <select id="a11T行動順キャラ5">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5" selected>5</option>
+          </select>
+        </p>
+        <p>
+          12T:
+          <select id="a12Tキャラ1">
+            <option value="bsc">通常</option>
+            <option value="ult">必殺</option>
+            <option value="grd">防御</option>
+            <option value="bscult">通必</option>
+          </select>
+          <select id="a12Tキャラ2">
+            <option value="bsc">通常</option>
+            <option value="ult">必殺</option>
+            <option value="grd">防御</option>
+            <option value="bscult">通必</option>
+          </select>
+          <select id="a12Tキャラ3">
+            <option value="bsc">通常</option>
+            <option value="ult">必殺</option>
+            <option value="grd">防御</option>
+            <option value="bscult">通必</option>
+          </select>
+          <select id="a12Tキャラ4">
+            <option value="bsc">通常</option>
+            <option value="ult">必殺</option>
+            <option value="grd">防御</option>
+            <option value="bscult">通必</option>
+          </select>
+          <select id="a12Tキャラ5">
+            <option value="bsc">通常</option>
+            <option value="ult">必殺</option>
+            <option value="grd">防御</option>
+            <option value="bscult">通必</option>
+          </select>
+          行動順:
+          <select id="a12T行動順キャラ1">
+            <option value="1" selected>1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+          </select>
+          <select id="a12T行動順キャラ2">
+            <option value="1">1</option>
+            <option value="2" selected>2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+          </select>
+          <select id="a12T行動順キャラ3">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3" selected>3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+          </select>
+          <select id="a12T行動順キャラ4">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4" selected>4</option>
+            <option value="5">5</option>
+          </select>
+          <select id="a12T行動順キャラ5">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5" selected>5</option>
+          </select>
+        </p>
+        <p>
+          13T:
+          <select id="a13Tキャラ1">
+            <option value="bsc">通常</option>
+            <option value="ult" selected>必殺</option>
+            <option value="grd">防御</option>
+            <option value="bscult">通必</option>
+          </select>
+          <select id="a13Tキャラ2">
+            <option value="bsc">通常</option>
+            <option value="ult" selected>必殺</option>
+            <option value="grd">防御</option>
+            <option value="bscult">通必</option>
+          </select>
+          <select id="a13Tキャラ3">
+            <option value="bsc">通常</option>
+            <option value="ult" selected>必殺</option>
+            <option value="grd">防御</option>
+            <option value="bscult">通必</option>
+          </select>
+          <select id="a13Tキャラ4">
+            <option value="bsc">通常</option>
+            <option value="ult" selected>必殺</option>
+            <option value="grd">防御</option>
+            <option value="bscult">通必</option>
+          </select>
+          <select id="a13Tキャラ5">
+            <option value="bsc">通常</option>
+            <option value="ult" selected>必殺</option>
+            <option value="grd">防御</option>
+            <option value="bscult">通必</option>
+          </select>
+          行動順:
+          <select id="a13T行動順キャラ1">
+            <option value="1" selected>1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+          </select>
+          <select id="a13T行動順キャラ2">
+            <option value="1">1</option>
+            <option value="2" selected>2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+          </select>
+          <select id="a13T行動順キャラ3">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3" selected>3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+          </select>
+          <select id="a13T行動順キャラ4">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4" selected>4</option>
+            <option value="5">5</option>
+          </select>
+          <select id="a13T行動順キャラ5">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5" selected>5</option>
+          </select>
+        </p>
+        <p>
+          14T:
+          <select id="a14Tキャラ1">
+            <option value="bsc">通常</option>
+            <option value="ult">必殺</option>
+            <option value="grd">防御</option>
+            <option value="bscult">通必</option>
+          </select>
+          <select id="a14Tキャラ2">
+            <option value="bsc">通常</option>
+            <option value="ult">必殺</option>
+            <option value="grd">防御</option>
+            <option value="bscult">通必</option>
+          </select>
+          <select id="a14Tキャラ3">
+            <option value="bsc">通常</option>
+            <option value="ult">必殺</option>
+            <option value="grd">防御</option>
+            <option value="bscult">通必</option>
+          </select>
+          <select id="a14Tキャラ4">
+            <option value="bsc">通常</option>
+            <option value="ult">必殺</option>
+            <option value="grd">防御</option>
+            <option value="bscult">通必</option>
+          </select>
+          <select id="a14Tキャラ5">
+            <option value="bsc">通常</option>
+            <option value="ult">必殺</option>
+            <option value="grd">防御</option>
+            <option value="bscult">通必</option>
+          </select>
+          行動順:
+          <select id="a14T行動順キャラ1">
+            <option value="1" selected>1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+          </select>
+          <select id="a14T行動順キャラ2">
+            <option value="1">1</option>
+            <option value="2" selected>2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+          </select>
+          <select id="a14T行動順キャラ3">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3" selected>3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+          </select>
+          <select id="a14T行動順キャラ4">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4" selected>4</option>
+            <option value="5">5</option>
+          </select>
+          <select id="a14T行動順キャラ5">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5" selected>5</option>
+          </select>
+        </p>
+        <p>
+          15T:
+          <select id="a15Tキャラ1">
+            <option value="bsc">通常</option>
+            <option value="ult">必殺</option>
+            <option value="grd">防御</option>
+            <option value="bscult">通必</option>
+          </select>
+          <select id="a15Tキャラ2">
+            <option value="bsc">通常</option>
+            <option value="ult">必殺</option>
+            <option value="grd">防御</option>
+            <option value="bscult">通必</option>
+          </select>
+          <select id="a15Tキャラ3">
+            <option value="bsc">通常</option>
+            <option value="ult">必殺</option>
+            <option value="grd">防御</option>
+            <option value="bscult">通必</option>
+          </select>
+          <select id="a15Tキャラ4">
+            <option value="bsc">通常</option>
+            <option value="ult">必殺</option>
+            <option value="grd">防御</option>
+            <option value="bscult">通必</option>
+          </select>
+          <select id="a15Tキャラ5">
+            <option value="bsc">通常</option>
+            <option value="ult">必殺</option>
+            <option value="grd">防御</option>
+            <option value="bscult">通必</option>
+          </select>
+          行動順:
+          <select id="a15T行動順キャラ1">
+            <option value="1" selected>1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+          </select>
+          <select id="a15T行動順キャラ2">
+            <option value="1">1</option>
+            <option value="2" selected>2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+          </select>
+          <select id="a15T行動順キャラ3">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3" selected>3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+          </select>
+          <select id="a15T行動順キャラ4">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4" selected>4</option>
+            <option value="5">5</option>
+          </select>
+          <select id="a15T行動順キャラ5">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5" selected>5</option>
+          </select>
+        </p>
+      </p>
+      <button id="calcbt" onclick="calc()">計算する</button>
+  </body>
+</html>
+
