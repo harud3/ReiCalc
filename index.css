@@ -1,6 +1,17 @@
 body{
     background-color:lightgreen;
-  }
+}
+#tab{
+    text-align: right;
+    display: inline-block;
+    width: 100px;
+}
+#place{
+    font-size: 14px;
+    text-align: center;
+    display: inline-block;
+    width: 68px;
+}
 #キャラ1{
     width: 60px;
 }
@@ -105,9 +116,4 @@ body{
 }
 #与治療plus5{
     width: 60px;
-}
-#tab{
-    text-align: right;
-    display: inline-block;
-    width: 100px;
 }
