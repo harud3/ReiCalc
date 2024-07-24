@@ -39,7 +39,11 @@
         calcTurn(i);
       }
       if(enemyHp <= 0){enemyHp = 0;}
-      alert(`レイ残HP${Math.round((96000 - enemyHp) / 96000 * 100)}%`); //残HPの割合を計算する
+
+      var hplate = Math.round((96000 - enemyHp) / 96000 * 100); //残HPの割合を計算する
+      document.getElementById("calchp").innerText = `レイ残HP${hplate}%`;
+      document.getElementById("calchp2").innerText = `レイ残HP${hplate}%`;
+      alert(`レイ残HP${hplate}%`); 
     }
     function calcTurn(turn){
       var first = document.querySelector(`#a${turn}T行動順キャラ1`).value; //1番(左端のキャラ)
@@ -282,6 +286,7 @@
     <p>与治療バフ・必殺与ダメバフがある場合、治療+にバフ倍率を入力してください。</p>
     <p>行動順の順番に、指定した行動をしたと想定して計算を行います。</p>
     <button id="calcbt" onclick="calc()">計算する</button>
+    <span id="calchp">レイ残HP-%</span>
     <p display:flex;>
       <!--ステータス等入力欄-->
       <p>
@@ -1376,6 +1381,7 @@
         </p>
       </p>
       <button id="calcbt" onclick="calc()">計算する</button>
+      <span id="calchp2">レイ残HP-%</span>
   </body>
 </html>
 
