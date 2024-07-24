@@ -106,3 +106,8 @@ body{
 #与治療plus5{
     width: 60px;
 }
+#tab{
+    text-align: right;
+    display: inline-block;
+    width: 100px;
+}

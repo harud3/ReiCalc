@@ -6,19 +6,19 @@
     <link rel="stylesheet" href="index.css">
   </head>
   <script>
-    var enemyHp = 96000;
-    var baseatk1 = 0;
-    var baseatk2 = 0;
+    var enemyHp = 96000; //勝利に必要な回復量
+    var baseatk1 = 0; //ATK初期値 「計算する」ボタン押下時のATK欄に入力された値
+    var baseatk2 = 0; 
     var baseatk3 = 0;
     var baseatk4 = 0;
     var baseatk5 = 0;
-    var thisatk = 0;
-    var atk1 = 0;
+    var thisatk = 0; //現在行動しているキャラのATK
+    var atk1 = 0; //該当ターンのATK+ATKバフを記録しておく、一時変数
     var atk2 = 0;
     var atk3 = 0;
     var atk4 = 0;
     var atk5 = 0;
-    function calc() {
+    function calc() { //「計算する」ボタン押下時 15ターン経過時のレイの残HPを出力する
       function setdef(){
         atk1 = baseatk1
         atk2 = baseatk2
@@ -27,50 +27,27 @@
         atk5 = baseatk5
       }
       enemyHp = 96000;
+      thisatk = 0;
       baseatk1 = document.getElementById('キャラ1').value;
       baseatk2 = document.getElementById('キャラ2').value;
       baseatk3 = document.getElementById('キャラ3').value;
       baseatk4 = document.getElementById('キャラ4').value;
       baseatk5 = document.getElementById('キャラ5').value;
-      thisatk = 0;
-      setdef();
-      calcTurn(2);
-      setdef();
-      calcTurn(3);
-      setdef();
-      calcTurn(4);
-      setdef();
-      calcTurn(5);
-      setdef();
-      calcTurn(6);
-      setdef();
-      calcTurn(7);
-      setdef();
-      calcTurn(8);
-      setdef();
-      calcTurn(9);
-      setdef();
-      calcTurn(10);
-      setdef();
-      calcTurn(11);
-      setdef();
-      calcTurn(12);
-      setdef();
-      calcTurn(13);
-      setdef();
-      calcTurn(14);
-      setdef();
-      calcTurn(15);
+
+      for ( var i = 2;  i <= 15;  i++  ) {
+        setdef();
+        calcTurn(i);
+      }
       if(enemyHp <= 0){enemyHp = 0;}
-      alert(`レイ残HP${Math.round((96000 - enemyHp) / 96000 * 100)}%`);
+      alert(`レイ残HP${Math.round((96000 - enemyHp) / 96000 * 100)}%`); //残HPの割合を計算する
     }
     function calcTurn(turn){
-      var first = document.querySelector(`#a${turn}T行動順キャラ1`).value;
-      var second = document.querySelector(`#a${turn}T行動順キャラ2`).value;
-      var third = document.querySelector(`#a${turn}T行動順キャラ3`).value;
-      var fourth = document.querySelector(`#a${turn}T行動順キャラ4`).value;
-      var fifth = document.querySelector(`#a${turn}T行動順キャラ5`).value;
-      for ( var i = 1;  i <= 5;  i++  ) {
+      var first = document.querySelector(`#a${turn}T行動順キャラ1`).value; //1番(左端のキャラ)
+      var second = document.querySelector(`#a${turn}T行動順キャラ2`).value; //2番(左端から2人目のキャラ)
+      var third = document.querySelector(`#a${turn}T行動順キャラ3`).value; //3番(中央のキャラ)
+      var fourth = document.querySelector(`#a${turn}T行動順キャラ4`).value; //4番(右端から2人目のキャラ)
+      var fifth = document.querySelector(`#a${turn}T行動順キャラ5`).value; //5番(右端のキャラ)
+      for ( var i = 1;  i <= 5;  i++  ) { //5人分繰り返す
         if(first == i){
           calcCharacter(turn, 1)
         }
@@ -90,35 +67,60 @@
     }
     function calcCharacter(turn,character){
       thisatk = 0;
-      var act = document.querySelector(`#a${turn}Tキャラ${character}`).value;
-      if(act == "bsc"){
+      var act = document.querySelector(`#a${turn}Tキャラ${character}`).value; //該当ターンの該当キャラの行動を取得
+      if(act == "bsc"){ //通常攻撃
         var pos = document.querySelector(`#ポジションキャラ${character}`).value;
-        if( pos == "sup"){
+        if( pos == "sup"){ //サポーターなら指定されたATK増加倍率でATKバフを行う
           buffATK(document.getElementById(`通常キャラ${character}`).value, character)
         }
         setThisatk(character);
-        enemyHp -= thisatk * 0.5 * (1 + (document.getElementById(`与治療plus${character}`).value / 100));
+        enemyHp -= thisatk * 0.5 * (1 + (document.getElementById(`与治療plus${character}`).value / 100)); //ATK50%分治療を行う
       }
-      else if(act == "ult"){
+      else if(act == "ult"){ //必殺技
         var pos = document.querySelector(`#ポジションキャラ${character}`).value;
-        if( pos == "sup"){
+        if( pos == "sup"){ //サポーターなら指定されたATKバフ倍率でATKバフを行う
           buffATK(document.getElementById(`必殺キャラ${character}`).value, character)
         }
         setThisatk(character);
-        enemyHp -= thisatk * (1 + (document.getElementById(`与治療plus${character}`).value / 100) );
+        enemyHp -= thisatk * (1 + (document.getElementById(`与治療plus${character}`).value / 100) ); //ATK100%分治療を行う
       }
-      else if(act == "grd"){console.log(0);}
-      else if(act == "bscult"){
+      else if(act == "grd"){} //防御
+      else if(act == "bscult"){ //通必　サポーターの必殺技のATKバフを反映しつつ、サポーターは通常攻撃する
         var pos = document.querySelector(`#ポジションキャラ${character}`).value;
-        if( pos == "sup"){
+        if( pos == "sup"){ //サポーターなら指定されたATKバフ倍率でATKバフを行う
           buffATK(document.getElementById(`通常キャラ${character}`).value, character)
           buffATK(document.getElementById(`必殺キャラ${character}`).value, character)
         }
         setThisatk(character);
-        enemyHp -= thisatk * 0.5 * (1 + (document.getElementById(`与治療plus${character}`).value / 100) );
+        enemyHp -= thisatk * 0.5 * (1 + (document.getElementById(`与治療plus${character}`).value / 100) ); //ATK50%分治療を行う
       }
+      else if(act == "dis"){} //麻痺
     }
-    function setThisatk(character){
+    function buffATK(buff, character){ //サポーターのバフを全員に反映
+      var baseatk = 0; //ここにサポーターの初期ATKを代入する
+      if(character == 1){
+        baseatk = baseatk1;
+      }
+      else if(character == 2){
+        baseatk = baseatk2
+      }
+      else if(character == 3){
+        baseatk = baseatk3
+      }
+      else if(character == 4){
+        baseatk = baseatk4
+      }
+      else if(character == 5){
+        baseatk = baseatk5
+      }
+      var buffatk = baseatk * buff / 100; //サポーターの初期ATKとATKバフ倍率を用いて、実際のバフ量の計算を行う
+      atk1 = + atk1 + buffatk;
+      atk2 = + atk2 + buffatk;
+      atk3 = + atk3 + buffatk;  
+      atk4 = + atk4 + buffatk;
+      atk5 = + atk5 + buffatk;
+    }
+    function setThisatk(character){ //直後にthisatkを用いて回復量の計算を行うための前処理
       if(character == 1){
         thisatk = atk1;
       }
@@ -135,43 +137,19 @@
         thisatk = atk5
       }
     }
-    function buffATK(buff, character){
-      var baseatk = 0;
-      if(character == 1){
-        
-        baseatk = baseatk1;
-      }
-      else if(character == 2){
-        baseatk = baseatk2
-      }
-      else if(character == 3){
-        baseatk = baseatk3
-      }
-      else if(character == 4){
-        baseatk = baseatk4
-      }
-      else if(character == 5){
-        baseatk = baseatk5
-      }
-      var buffatk = baseatk * buff / 100;
-      atk1 = + atk1 + buffatk;
-      atk2 = + atk2 + buffatk;
-      atk3 = + atk3 + buffatk;  
-      atk4 = + atk4 + buffatk;
-      atk5 = + atk5 + buffatk;
-    }
-    function levelup(){
-      var nowatk1 = document.getElementById('キャラ1').value;
+    function levelup(){ //「レベル60にする」押下時　Lvに入力されている値を基に、レベルを60まで上げる
+      var nowatk1 = document.getElementById('キャラ1').value; //現在ATK
       var nowatk2 = document.getElementById('キャラ2').value;
       var nowatk3 = document.getElementById('キャラ3').value;
       var nowatk4 = document.getElementById('キャラ4').value;
       var nowatk5 = document.getElementById('キャラ5').value;
-      var nowlv1 = document.getElementById('キャラレベル1').value;
+      var nowlv1 = document.getElementById('キャラレベル1').value; //現在レベル
       var nowlv2 = document.getElementById('キャラレベル2').value;
       var nowlv3 = document.getElementById('キャラレベル3').value;
       var nowlv4 = document.getElementById('キャラレベル4').value;
       var nowlv5 = document.getElementById('キャラレベル5').value;
-      if(0 < nowlv1 && nowlv1 <= 60){
+      if(0 < nowlv1 && nowlv1 <= 60){ //レベルが0~60なら計算
+        //現在ATK * (1.05^(60 - 現在レベル))　が計算式
         document.getElementById('キャラ1').value =  Math.round(nowatk1 * (1.05 ** (60 - nowlv1) ));
         document.getElementById('キャラレベル1').value = 60;
       }
@@ -192,23 +170,25 @@
         document.getElementById('キャラレベル5').value = 60;
       }
     }
-    function tierup(){
-      var nowatk1 = document.getElementById('キャラ1').value;
+    function tierup(){ //全員の潜在を1段階上げる
+      var nowatk1 = document.getElementById('キャラ1').value; //現在ATK
       var nowatk2 = document.getElementById('キャラ2').value;
       var nowatk3 = document.getElementById('キャラ3').value;
       var nowatk4 = document.getElementById('キャラ4').value;
       var nowatk5 = document.getElementById('キャラ5').value;
-      var nowtier1 = document.getElementById('キャラ潜在1').value;
+      var nowtier1 = document.getElementById('キャラ潜在1').value; //現在潜在
       var nowtier2 = document.getElementById('キャラ潜在2').value;
       var nowtier3 = document.getElementById('キャラ潜在3').value;
       var nowtier4 = document.getElementById('キャラ潜在4').value;
       var nowtier5 = document.getElementById('キャラ潜在5').value;
-      var nowfriend1 = document.getElementById('キャラふれあい1').value;
+      var nowfriend1 = document.getElementById('キャラふれあい1').value; //現在ふれあい
       var nowfriend2 = document.getElementById('キャラふれあい2').value;
       var nowfriend3 = document.getElementById('キャラふれあい3').value;
       var nowfriend4 = document.getElementById('キャラふれあい4').value;
       var nowfriend5 = document.getElementById('キャラふれあい5').value;
-      if(0 <= nowtier1 && nowtier1 < 12){
+      if(0 <= nowtier1 && nowtier1 < 12){ //潜在0~11なら、潜在を1段階上げる　増加率は一律ATK+8.33%とする
+        //潜在とふれあいは乗算となる
+        //よって、ATK /(潜在 * ふれあい) * ((潜在+1段階) * ふれあい)で、実現できる
         document.getElementById('キャラ1').value 
         =  Math.round(+nowatk1 / ((1 + +nowtier1 * 0.0833) * (1 + +nowfriend1 * 0.1 )) * ((1 + (+nowtier1 + 1) * 0.0833) * (1 + +nowfriend1 * 0.1 )) );
         document.getElementById('キャラ潜在1').value = +nowtier1 + 1;
@@ -250,7 +230,9 @@
       var nowfriend3 = document.getElementById('キャラふれあい3').value;
       var nowfriend4 = document.getElementById('キャラふれあい4').value;
       var nowfriend5 = document.getElementById('キャラふれあい5').value;
-      if(0 <= nowfriend1 && nowfriend1 < 5){
+      if(0 <= nowfriend1 && nowfriend1 < 5){ //ふれあい0~4なら、ふれあいを一段階上げる　増加率は一律ATK+10%とする
+        //潜在とふれあいは乗算となる
+        //よって、ATK /(潜在 * ふれあい) * (潜在 * (ふれあい+1段階))で、実現できる
         document.getElementById('キャラ1').value 
         =  Math.round(+nowatk1 / ((1 + +nowtier1 * 0.0833) * (1 + +nowfriend1 * 0.1 )) * ((1 + +nowtier1 * 0.0833) * (1 + (+nowfriend1 + 1) * 0.1 )) );
         document.getElementById('キャラふれあい1').value = +nowfriend1 + 1;
@@ -276,32 +258,34 @@
         document.getElementById('キャラふれあい5').value = +nowfriend5 + 1;
       }
     }
-    function changeActionNum(turn, first, second){
+    function changeActionNums(first, second){ //行動全入れ替えボタン押下時 
+      for ( var i = 2;  i <= 15;  i++  ) { //2T~15T全て入れ替える
+        changeActionNum(i, first, second)
+      }
+    }
+    function changeActionNum(turn, first, second){  //指定されたキャラ同士の行動順を入れ替える
       var turnfirst = document.querySelector(`#a${turn}T行動順キャラ${first}`).value;
       var turnsecond = document.querySelector(`#a${turn}T行動順キャラ${second}`).value;
       document.getElementById(`a${turn}T行動順キャラ${first}`).options[turnsecond - 1].selected = true;
       document.getElementById(`a${turn}T行動順キャラ${second}`).options[turnfirst - 1].selected = true;
     }
-    function changeActionNums(first, second){
-      for ( var i = 2;  i <= 15;  i++  ) {
-        changeActionNum(i, first, second)
-      }
-    }
   </script>
   <body>
-    <p>この計算はあくまで目安です。また、想定外の入力は考慮しておりません。</p>
-    <p>各種入力を行って「計算する」を押すと、11-10レイ戦の15ターン時点でのおおよその敵残HPを計算します。</p>
+    <!--解説-->
+    <p>この計算は目安です。また、想定外の入力は考慮しておりません。</p>
+    <p>各種入力を行い「計算する」を押すと、11-10レイ戦の15ターン時点での敵残HPを計算します。</p>
     <p>ATKは、バトル開始時のATKバフも加味して入力すると実際の値に近くなります。</p>
-    <p>潜在(0層~12層)、ふれあい(0部屋~5部屋)を入力して、「~%上げる」ボタンを押すと仮育成できます。</p>
+    <p>潜在(0層~12層)、ふれあい(0部屋~5部屋)を入力して、「1段階上げる」ボタンを押すと仮育成できます。</p>
     <p>サポーターを採用する場合、ポジションを「サポ」に変更し、サポ通常とサポ必殺にATKバフ倍率を入力してください。</p>
     <p>サポーターの必殺技の効果が次のターンにも続いている場合、次のターンに行動「通必」を選択してください。</p>
     <p>与治療バフ・必殺与ダメバフがある場合、治療+にバフ倍率を入力してください。
-    <p>行動順の順番通りに動いたと想定して計算を行います。</p>
+    <p>行動順の順番に、指定した行動をしたと想定して計算を行います。</p>
     <button id="calcbt" onclick="calc()">計算する</button>
     <p display:flex;>
+      <!--ステータス等入力欄-->
       <p>
         <p>
-          ATK:
+          <span id="tab">ATK:</span>
           <input type="number" name="キャラ1" id="キャラ1" value="1500"/>
           <input type="number" name="キャラ2" id="キャラ2" value="1500"/>
           <input type="number" name="キャラ3" id="キャラ3" value="1500"/>
@@ -309,7 +293,7 @@
           <input type="number" name="キャラ5" id="キャラ5" value="1500"/>
         </p>
         <p>
-          Lv:
+          <span id="tab">Lv:</span>
           <input type="number" name="キャラレベル1" id="キャラレベル1" value="60"/>
           <input type="number" name="キャラレベル2" id="キャラレベル2" value="60"/>
           <input type="number" name="キャラレベル3" id="キャラレベル3" value="60"/>
@@ -318,25 +302,25 @@
           <button id="calcbt" onclick="levelup()">レベル60にする</button>
         </p>
         <p>
-          潜在:
+          <span id="tab">潜在:</span>
           <input type="number" name="キャラ潜在1" id="キャラ潜在1" value="6"/>
           <input type="number" name="キャラ潜在2" id="キャラ潜在2" value="6"/>
           <input type="number" name="キャラ潜在3" id="キャラ潜在3" value="6"/>
           <input type="number" name="キャラ潜在4" id="キャラ潜在4" value="6"/>
           <input type="number" name="キャラ潜在5" id="キャラ潜在5" value="6"/>
-          <button id="calcbt" onclick="tierup()">全員の潜在ATKを8.33%上げる</button>
+          <button id="calcbt" onclick="tierup()">全員の潜在を1段階上げる</button>
         </p>
         <p>
-          ふれあい:
+          <span id="tab">ふれあい:</span>
           <input type="number" name="キャラふれあい1" id="キャラふれあい1" value="2"/>
           <input type="number" name="キャラふれあい2" id="キャラふれあい2" value="2"/>
           <input type="number" name="キャラふれあい3" id="キャラふれあい3" value="2"/>
           <input type="number" name="キャラふれあい4" id="キャラふれあい4" value="2"/>
           <input type="number" name="キャラふれあい5" id="キャラふれあい5" value="2"/>
-          <button id="calcbt" onclick="friendup()">全員のふれあいを10%上げる</button>
+          <button id="calcbt" onclick="friendup()">全員のふれあいを1段階上げる</button>
         </p>
         <p>
-          ポジション:
+          <span id="tab">ポジション:</span>
           <select id="ポジションキャラ1">
             <option value="otr">サポ以外</option>
             <option value="sup">サポ</option>
@@ -359,7 +343,7 @@
           </select>
         </p>
         <p>
-          サポ通常:
+          <span id="tab">サポ通常:</span>
           <input type="number" name="通常キャラ1" id="通常キャラ1" value="30"/>%
           <input type="number" name="通常キャラ2" id="通常キャラ2" value="30"/>%
           <input type="number" name="通常キャラ3" id="通常キャラ3" value="30"/>%
@@ -367,7 +351,7 @@
           <input type="number" name="通常キャラ5" id="通常キャラ5" value="30"/>%
         </p>
         <p>
-          サポ必殺:
+          <span id="tab">サポ必殺:</span>
           <input type="number" name="必殺キャラ1" id="必殺キャラ1" value="100"/>%
           <input type="number" name="必殺キャラ2" id="必殺キャラ2" value="100"/>%
           <input type="number" name="必殺キャラ3" id="必殺キャラ3" value="100"/>%
@@ -375,7 +359,7 @@
           <input type="number" name="必殺キャラ5" id="必殺キャラ5" value="100"/>%
         </p>
         <p>
-          与治療+:
+          <span id="tab">治療+:</span>
           <input type="number" name="与治療plus1" id="与治療plus1" value="0"/>%
           <input type="number" name="与治療plus2" id="与治療plus2" value="0"/>%
           <input type="number" name="与治療plus3" id="与治療plus3" value="0"/>%
@@ -385,6 +369,7 @@
         <p>
            ------------------------------------------------------
         </p>
+        <!--バトル中の行動を指定-->
         <p>
           行動順全入れ替え
           <button id="calcbt" onclick="changeActionNums(1,2)">1番⇔2番</button>
@@ -393,6 +378,7 @@
           <button id="calcbt" onclick="changeActionNums(4,5)">4番⇔5番</button>
           <button id="calcbt" onclick="changeActionNums(5,1)">5番⇔1番</button>
         </p>
+        <p>01T:</p>
         <p>
           02T:
           <select id="a2Tキャラ1">
@@ -745,30 +731,35 @@
             <option value="ult">必殺</option>
             <option value="grd" selected>防御</option>
             <option value="bscult">通必</option>
+            <option value="dis">麻痺</option>
           </select>
           <select id="a7Tキャラ2">
             <option value="bsc">通常</option>
             <option value="ult">必殺</option>
             <option value="grd" selected>防御</option>
             <option value="bscult">通必</option>
+            <option value="dis">麻痺</option>
           </select>
           <select id="a7Tキャラ3">
             <option value="bsc">通常</option>
             <option value="ult">必殺</option>
             <option value="grd" selected>防御</option>
             <option value="bscult">通必</option>
+            <option value="dis">麻痺</option>
           </select>
           <select id="a7Tキャラ4">
             <option value="bsc">通常</option>
             <option value="ult">必殺</option>
             <option value="grd" selected>防御</option>
             <option value="bscult">通必</option>
+            <option value="dis">麻痺</option>
           </select>
           <select id="a7Tキャラ5">
             <option value="bsc">通常</option>
             <option value="ult">必殺</option>
             <option value="grd" selected>防御</option>
             <option value="bscult">通必</option>
+            <option value="dis">麻痺</option>
           </select>
           行動順:
           <select id="a7T行動順キャラ1">
@@ -814,30 +805,35 @@
             <option value="ult">必殺</option>
             <option value="grd" selected>防御</option>
             <option value="bscult">通必</option>
+            <option value="dis">麻痺</option>
           </select>
           <select id="a8Tキャラ2">
             <option value="bsc">通常</option>
             <option value="ult">必殺</option>
             <option value="grd" selected>防御</option>
             <option value="bscult">通必</option>
+            <option value="dis">麻痺</option>
           </select>
           <select id="a8Tキャラ3">
             <option value="bsc">通常</option>
             <option value="ult">必殺</option>
             <option value="grd" selected>防御</option>
             <option value="bscult">通必</option>
+            <option value="dis">麻痺</option>
           </select>
           <select id="a8Tキャラ4">
             <option value="bsc">通常</option>
             <option value="ult">必殺</option>
             <option value="grd" selected>防御</option>
             <option value="bscult">通必</option>
+            <option value="dis">麻痺</option>
           </select>
           <select id="a8Tキャラ5">
             <option value="bsc">通常</option>
             <option value="ult">必殺</option>
             <option value="grd" selected>防御</option>
             <option value="bscult">通必</option>
+            <option value="dis">麻痺</option>
           </select>
           行動順:
           <select id="a8T行動順キャラ1">
@@ -1090,30 +1086,35 @@
             <option value="ult">必殺</option>
             <option value="grd" selected>防御</option>
             <option value="bscult">通必</option>
+            <option value="dis">麻痺</option>
           </select>
           <select id="a12Tキャラ2">
             <option value="bsc">通常</option>
             <option value="ult">必殺</option>
             <option value="grd" selected>防御</option>
             <option value="bscult">通必</option>
+            <option value="dis">麻痺</option>
           </select>
           <select id="a12Tキャラ3">
             <option value="bsc">通常</option>
             <option value="ult">必殺</option>
             <option value="grd" selected>防御</option>
             <option value="bscult">通必</option>
+            <option value="dis">麻痺</option>
           </select>
           <select id="a12Tキャラ4">
             <option value="bsc">通常</option>
             <option value="ult">必殺</option>
             <option value="grd" selected>防御</option>
             <option value="bscult">通必</option>
+            <option value="dis">麻痺</option>
           </select>
           <select id="a12Tキャラ5">
             <option value="bsc">通常</option>
             <option value="ult">必殺</option>
             <option value="grd" selected>防御</option>
             <option value="bscult">通必</option>
+            <option value="dis">麻痺</option>
           </select>
           行動順:
           <select id="a12T行動順キャラ1">
@@ -1159,30 +1160,35 @@
             <option value="ult">必殺</option>
             <option value="grd" selected>防御</option>
             <option value="bscult">通必</option>
+            <option value="dis">麻痺</option>
           </select>
           <select id="a13Tキャラ2">
             <option value="bsc">通常</option>
             <option value="ult">必殺</option>
             <option value="grd" selected>防御</option>
             <option value="bscult">通必</option>
+            <option value="dis">麻痺</option>
           </select>
           <select id="a13Tキャラ3">
             <option value="bsc">通常</option>
             <option value="ult">必殺</option>
             <option value="grd" selected>防御</option>
             <option value="bscult">通必</option>
+            <option value="dis">麻痺</option>
           </select>
           <select id="a13Tキャラ4">
             <option value="bsc">通常</option>
             <option value="ult">必殺</option>
             <option value="grd" selected>防御</option>
             <option value="bscult">通必</option>
+            <option value="dis">麻痺</option>
           </select>
           <select id="a13Tキャラ5">
             <option value="bsc">通常</option>
             <option value="ult">必殺</option>
             <option value="grd" selected>防御</option>
             <option value="bscult">通必</option>
+            <option value="dis">麻痺</option>
           </select>
           行動順:
           <select id="a13T行動順キャラ1">
